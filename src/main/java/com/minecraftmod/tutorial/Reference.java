@@ -9,4 +9,24 @@ public class Reference {
 
     public static final String  CLIENT_PROXY_CLASS ="com.minecraftmod.tutorial.proxy.ClientProxy";
     public static final String  SERVER_PROXY_CLASS ="com.minecraftmod.tutorial.proxy.ServerProxy";
+
+    public static enum MechItems{
+        RADIATOR("radiator","ItemRadiator");
+
+        private String unlocalizedName;
+        private String registryName;
+
+        MechItems(String unlocalizedName,String registryName){
+            this.unlocalizedName = unlocalizedName;
+            this.registryName = registryName;
+        }
+
+        public String getRegistryName() {
+            return registryName;
+        }
+
+        public String getUnlocalizedName() {
+            return unlocalizedName;
+        }
+    }
 }
