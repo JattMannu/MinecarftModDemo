@@ -11,7 +11,9 @@ public class Reference {
     public static final String  SERVER_PROXY_CLASS ="com.minecraftmod.tutorial.proxy.ServerProxy";
 
     public static enum MechItems{
-        RADIATOR("radiator","ItemRadiator");
+        RADIATOR("radiator","ItemRadiator"),
+        NUT("nut","ItemNut"),
+        BOLT("bolt","ItemBolt");
 
         private String unlocalizedName;
         private String registryName;

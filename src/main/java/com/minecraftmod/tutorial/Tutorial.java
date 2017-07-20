@@ -34,6 +34,7 @@ public class Tutorial {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
         //MinecraftForge.EVENT_BUS.register(ModItems.class);
+        ModItems.init();
         MinecraftForge.EVENT_BUS.register(new ModItems());
         System.out.println("preInit");
     }
