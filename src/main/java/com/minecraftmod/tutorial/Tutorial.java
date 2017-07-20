@@ -8,6 +8,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 //This is an Interface.
 @Mod(
@@ -27,28 +29,23 @@ public class Tutorial {
     public static CommonProxy proxy;
 
     public Tutorial(){
-        //For Static
-        MinecraftForge.EVENT_BUS.register(ModItems.class);
     }
 
     @Mod.EventHandler
-    public void preInit(FMLInitializationEvent event){
+    public void preInit(FMLPreInitializationEvent event){
+        //MinecraftForge.EVENT_BUS.register(ModItems.class);
+        MinecraftForge.EVENT_BUS.register(new ModItems());
         System.out.println("preInit");
-        ModItems.init();
-        //For instance
-        //MinecraftForge.EVENT_BUS.register(new ModItems());
-        proxy.init();
-      // ModItems.registerRenders();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
+        proxy.init();
         System.out.println("init");
-
     }
 
     @Mod.EventHandler
-    public void postInit(FMLInitializationEvent event){
+    public void postInit(FMLPostInitializationEvent event){
         System.out.println("postInit");
     }
 
