@@ -43,7 +43,8 @@ public class ModItems {
                     .getItemModelMesher()
                     .register(item ,
                             0,
-                            new ModelResourceLocation(Reference.MOD_ID + ":"+item.getUnlocalizedName().substring(5),"inventory")
+                            //new ModelResourceLocation(Reference.MOD_ID + ":"+item.getUnlocalizedName().substring(5),"inventory")
+                            new ModelResourceLocation(item.getRegistryName(),"inventory")
                     );
         }
     }
