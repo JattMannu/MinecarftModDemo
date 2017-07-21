@@ -1,6 +1,11 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "carmechmod:blocks/engineblock"
+    "down": "carmechmod:blocks/engineblock/bottom",
+    "up": "carmechmod:blocks/engineblock/top",
+    "north": "carmechmod:blocks/engineblock/side",
+    "south": "carmechmod:blocks/engineblock/side",
+    "west": "carmechmod:blocks/engineblock/frontnback",
+    "east": "carmechmod:blocks/engineblock/frontnback"
   }
 }

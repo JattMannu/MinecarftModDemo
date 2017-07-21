@@ -1,6 +1,37 @@
 {
-  "parent": "block/cube_all",
+  "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
   "textures": {
-    "all": "carmechmod:blocks/engineblock"
-  }
+    "0": "carmechmod:blocks/engineblock/side",
+    "1": "carmechmod:blocks/engineblock/frontnback",
+    "2": "carmechmod:blocks/engineblock/bottom",
+    "3": "carmechmod:blocks/engineblock/top"
+  },
+  "elements": [
+    {
+      "name": "Base",
+      "from": [ 0.0, 0.0, 0.0 ],
+      "to": [ 16.0, 4.0, 16.0 ],
+      "faces": {
+        "north": { "texture": "#0", "uv": [ 0.0, 12.0, 16.0, 16.0 ] },
+        "east": { "texture": "#1", "uv": [ 0.0, 12.0, 16.0, 16.0 ] },
+        "south": { "texture": "#2", "uv": [ 0.0, 12.0, 16.0, 16.0 ] },
+        "west": { "texture": "#1", "uv": [ 0.0, 12.0, 16.0, 16.0 ] },
+        "up": { "texture": "#2", "uv": [ 0.0, 0.0, 16.0, 16.0 ] },
+        "down": { "texture": "#2", "uv": [ 0.0, 0.0, 16.0, 16.0 ] }
+      }
+    },
+    {
+      "name": "Cylinder",
+      "from": [ 4.0, 4.0, 0.0 ],
+      "to": [ 12.0, 14.0, 16.0 ],
+      "faces": {
+        "north": { "texture": "#0", "uv": [ 4.0, 0.0, 13.0, 10.0 ] },
+        "east": { "texture": "#1", "uv": [ 0.0, 0.0, 16.0, 10.0 ] },
+        "south": { "texture": "#0", "uv": [ 3.0, 0.0, 11.0, 10.0 ] },
+        "west": { "texture": "#1", "uv": [ 0.0, 0.0, 16.0, 10.0 ] },
+        "up": { "texture": "#3", "uv": [ 4.0, 0.0, 12.0, 16.0 ] },
+        "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 8.0, 16.0 ] }
+      }
+    }
+  ]
 }
