@@ -57,3 +57,34 @@ https://www.youtube.com/watch?v=8VEdtQLuLO0&feature=youtu.be
 
 For more details update more often refer to the Forge Forums:
 http://www.minecraftforge.net/forum/index.php/topic,14048.0.html
+
+
+TIPS:
+
+How to register a Block?
+
+@GameRegistry.ObjectHolder("my_mod_id")
+public static class Registrar {
+  @GameRegistry.ObjectHolder("myblock")
+  public static MyBlock MY_BLOCK = null;
+  // is this correct..?
+  @GameRegistry.ObjectHolder("myblock")
+  public static ItemBlock MY_BLOCK_ITEM = null;
+
+  @SubscribeEvent
+  public static void registerBlocks(RegistryEvent.Register<Block> event) {
+    event.getRegistry().register(new MyBlock().setRegistryName("myblock"));
+  }
+
+  @SubscribeEvent
+  public static void registerBlocks(RegistryEvent.Register<Item> event) {
+    // will MY_BLOCK have been injected at this point?
+    event.getRegistry().register(new ItemBlock(MY_BLOCK).setRegistryName("myblock"));
+  }
+
+  @SideOnly(Side.CLIENT)
+  @SubscribeEvent
+  public static void registerModels(ModelRegistryEvent event) {
+    ModelLoader.setCustomModelResourceLocation(MY_BLOCK_ITEM, 0, new ModelResourceLocation("my_mod_id:myblock", "inventory"));
+  }
+}

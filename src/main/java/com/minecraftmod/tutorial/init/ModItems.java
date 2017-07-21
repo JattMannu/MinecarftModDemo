@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 
 
-public class ModItems {
+public class ModItems implements iMod{
 
     private static Item radiator;
     private static Item nut;
@@ -25,18 +25,20 @@ public class ModItems {
     }
 
     @SubscribeEvent
-    public void registerItems(RegistryEvent.Register<Item> event){
-        System.out.println("registerItems : radiator");
+    public static void registerItems(RegistryEvent.Register<Item> event){
+        System.out.println("registerItems");
         event.getRegistry().registerAll(radiator , nut ,bolt);
     }
 
     public static void registerRenders(){
+        System.out.println("registerRenders");
         registerRender(radiator, nut ,bolt );
     }
 
     public static void registerRender(Item... items){
        // ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
         for (Item item: items) {
+            System.out.println("registerRender : "+ item.getRegistryName());
             Minecraft
                     .getMinecraft()
                     .getRenderItem()

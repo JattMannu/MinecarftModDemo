@@ -1,6 +1,6 @@
 package com.minecraftmod.tutorial;
 
-import com.minecraftmod.tutorial.init.ModItems;
+import com.minecraftmod.tutorial.init.*;
 import com.minecraftmod.tutorial.proxy.CommonProxy;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -33,9 +33,14 @@ public class Tutorial {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        //MinecraftForge.EVENT_BUS.register(ModItems.class);
+        //Init all the mod items and blocks
         ModItems.init();
-        MinecraftForge.EVENT_BUS.register(new ModItems());
+        ModBlocks.init();
+        // The function must be static.....
+        MinecraftForge.EVENT_BUS.register(ModItems.class);
+        MinecraftForge.EVENT_BUS.register(ModBlocks.class);
+        // The function is not STATIC
+        //MinecraftForge.EVENT_BUS.register(new ModItems());
         System.out.println("preInit");
     }
 
@@ -49,7 +54,5 @@ public class Tutorial {
     public void postInit(FMLPostInitializationEvent event){
         System.out.println("postInit");
     }
-
-
 
 }

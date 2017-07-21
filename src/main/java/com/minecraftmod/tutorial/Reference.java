@@ -31,4 +31,24 @@ public class Reference {
             return unlocalizedName;
         }
     }
+
+    public static enum MechBlocks{
+        ENGINEBLOCK("engineBlock","BlockEngineBlock");
+
+        private String unlocalizedName;
+        private String registryName;
+
+        MechBlocks(String unlocalizedName,String registryName){
+            this.unlocalizedName = unlocalizedName;
+            this.registryName = registryName;
+        }
+
+        public String getRegistryName() {
+            return registryName;
+        }
+
+        public String getUnlocalizedName() {
+            return unlocalizedName;
+        }
+    }
 }
