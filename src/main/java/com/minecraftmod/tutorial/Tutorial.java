@@ -2,6 +2,7 @@ package com.minecraftmod.tutorial;
 
 import com.minecraftmod.tutorial.init.*;
 import com.minecraftmod.tutorial.proxy.CommonProxy;
+import com.minecraftmod.tutorial.tileentity.TileEntityCombustionEngine;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -10,6 +11,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 //This is an Interface.
 @Mod(
@@ -47,6 +49,7 @@ public class Tutorial {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event){
         proxy.init();
+        GameRegistry.registerTileEntity(TileEntityCombustionEngine.class,Reference.MOD_ID +"TileEntityCombustionEngine");
         System.out.println("init");
     }
 

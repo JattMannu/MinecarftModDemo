@@ -2,16 +2,20 @@ package com.minecraftmod.tutorial.blocks;
 
 
 import com.minecraftmod.tutorial.Reference;
+import com.minecraftmod.tutorial.tileentity.TileEntityEngine;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockEngineBlock extends Block {
+public class BlockEngineBlock extends Block implements ITileEntityProvider {
 
     public BlockEngineBlock() {
         super(Material.ANVIL);
@@ -29,6 +33,7 @@ public class BlockEngineBlock extends Block {
     @Override
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
         super.onBlockClicked(worldIn, pos, playerIn);
+        Minecraft.getMinecraft().player.sendChatMessage(this.getUnlocalizedName());
         System.out.println("BlockEngineBlock's onBlockClicked trigger");
     }
 
@@ -37,6 +42,11 @@ public class BlockEngineBlock extends Block {
         super.onBlockDestroyedByPlayer(worldIn, pos, state);
         this.dropBlockAsItem(worldIn, pos, state , 1);
         System.out.println("BlockEngineBlock's onBlockDestroyedByPlayer trigger");
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta){
+        return new TileEntityEngine();
     }
 
 }

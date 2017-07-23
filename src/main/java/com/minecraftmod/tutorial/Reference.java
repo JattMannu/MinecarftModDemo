@@ -33,7 +33,9 @@ public class Reference {
     }
 
     public static enum MechBlocks{
-        ENGINEBLOCK("engineBlock","BlockEngineBlock");
+        ENGINEBLOCK("engineBlock","BlockEngineBlock"),
+        COMBUSTIONENGINE("combustionEngine","BlockCombustionEngine"),
+        TEST("test","TestBlock");
 
         private String unlocalizedName;
         private String registryName;
