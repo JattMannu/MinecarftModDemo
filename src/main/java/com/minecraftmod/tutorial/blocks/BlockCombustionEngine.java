@@ -4,6 +4,7 @@ import com.minecraftmod.tutorial.Reference;
 import com.minecraftmod.tutorial.init.ModItems;
 import com.minecraftmod.tutorial.tileentity.TileEntityCombustionEngine;
 import com.minecraftmod.tutorial.tileentity.TileEntityEngine;
+import com.minecraftmod.tutorial.utility.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
@@ -20,25 +21,30 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.SidedProxy;
 
 public class BlockCombustionEngine extends Block implements ITileEntityProvider {
 
     public BlockCombustionEngine(){
         super(Material.ANVIL);
-        //super.setHardness(1);
+        super.setHardness(1);
         setUnlocalizedName(Reference.MechBlocks.COMBUSTIONENGINE.getUnlocalizedName());
         setRegistryName(Reference.MechBlocks.COMBUSTIONENGINE.getRegistryName());
     }
 
+
     @Override
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
         super.onBlockClicked(worldIn, pos, playerIn);
-
-
+        if(worldIn.isRemote) return;
         //This will trigger at client side.
         if(worldIn.isRemote)
             Minecraft.getMinecraft().player.sendChatMessage(this.getUnlocalizedName());
-        System.out.println("BlockCombustionEngine's onBlockClicked trigger");
+
+        TileEntityCombustionEngine tileEntityCombustionEngine =
+                (worldIn.getTileEntity(pos) instanceof  TileEntityCombustionEngine ? (TileEntityCombustionEngine)worldIn.getTileEntity(pos) : null);
+        Minecraft.getMinecraft().player.sendChatMessage("Is Engine Running?  and worldIn.isRemote" + tileEntityCombustionEngine.isEngineRunning()+worldIn.isRemote) ;
+
     }
 
     @Override
@@ -46,17 +52,39 @@ public class BlockCombustionEngine extends Block implements ITileEntityProvider 
         return new TileEntityCombustionEngine();
     }
 
+
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        //Ensure the code runs Server side.
+        if(worldIn.isRemote) return false;
+
+        System.out.println("worldIn.isRemote   =  "+worldIn.isRemote);
         TileEntityCombustionEngine tileEntityCombustionEngine =
                 (worldIn.getTileEntity(pos) instanceof  TileEntityCombustionEngine ? (TileEntityCombustionEngine)worldIn.getTileEntity(pos) : null);
-        if(!worldIn.isRemote && tileEntityCombustionEngine != null && playerIn.getHeldItemMainhand().getItem() == new ItemCoal())
-            Minecraft.getMinecraft().player.sendChatMessage("onBlockActivated with Coal in hand");
-        else
-            Minecraft.getMinecraft().player.sendChatMessage("onBlockActivated trying to turn start or stop engine.");
-        worldIn.spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX()+0.5, pos.getY()+1.1,pos.getZ()+0.5, 0.0D, 0.0D, 0.0D);
-        return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
+        //If the tileEntity is null if continue we will null exception error.
+        if(tileEntityCombustionEngine == null) return false;
+
+        String itemInHand = playerIn.getHeldItemMainhand().getItem().getUnlocalizedName();
+        Minecraft.getMinecraft().player.sendChatMessage(itemInHand);
+
+        switch (itemInHand){
+            case "tile.air":
+                Minecraft.getMinecraft().player.sendChatMessage("Trying to toggle engine.");
+                Logger.spawnParticleDefault(worldIn, EnumParticleTypes.WATER_BUBBLE ,pos );
+                tileEntityCombustionEngine.toggleEngine();
+                return true;
+            case "item.coal":
+                Minecraft.getMinecraft().player.sendChatMessage("Putting Fuel into Engine.");
+                Logger.spawnParticleDefault(worldIn, EnumParticleTypes.SMOKE_LARGE , pos);
+                return true;
+            default:
+                Minecraft.getMinecraft().player.sendChatMessage("IGNORED");
+                return false;
+        }
+        
+
     }
+
 
 
 }

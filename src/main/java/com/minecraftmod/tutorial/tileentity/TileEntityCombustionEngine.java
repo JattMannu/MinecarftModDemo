@@ -8,6 +8,7 @@ public class TileEntityCombustionEngine extends TileEntity {
     private float amountAir = 0;
     private float amountfuel = 0;
     private float sparkPlugTiming = 0;
+    private boolean isEngineRunning = false;
 
     private static final int  maxFuel = 4;
 
@@ -28,11 +29,28 @@ public class TileEntityCombustionEngine extends TileEntity {
     }
 
     public float removeFuel(){
-        if(canRemoveFuel())
+        //Ensure that the code is trigger at server side.
+        if( !world.isRemote && canRemoveFuel() )
             --amountfuel;
         return amountfuel;
     }
 
+    public void startEngine(){
+        isEngineRunning = true;
+    }
+
+    public void stopEngine(){
+        isEngineRunning = false;
+    }
+
+    public boolean isEngineRunning(){
+        return isEngineRunning;
+    }
+
+    public void  toggleEngine(){
+        if(world.isRemote)return;
+        isEngineRunning  = !isEngineRunning;
+    }
 
     //This saving data to file and loading it when the ever starts again.
     //I suppose if we do not do this will we not be able to save the information.
@@ -41,6 +59,7 @@ public class TileEntityCombustionEngine extends TileEntity {
         compound.setFloat("amountAir",amountAir);
         compound.setFloat("amountfuel",amountfuel);
         compound.setFloat("sparkPlugTiming",sparkPlugTiming);
+        compound.setBoolean("isEngineRunning",isEngineRunning);
 
         return super.writeToNBT(compound);
     }
@@ -51,5 +70,7 @@ public class TileEntityCombustionEngine extends TileEntity {
         this.amountAir = compound.getFloat("amountAir");
         this.amountfuel = compound.getFloat("amountfuel");
         this.sparkPlugTiming = compound.getFloat("sparkPlugTiming");
+        this.isEngineRunning = compound.getBoolean("isEngineRunning");
+
     }
 }
