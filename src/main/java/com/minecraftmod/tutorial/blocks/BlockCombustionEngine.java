@@ -11,7 +11,9 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemCoal;
 import net.minecraft.item.ItemStack;
@@ -36,14 +38,32 @@ public class BlockCombustionEngine extends Block implements ITileEntityProvider 
     @Override
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
         super.onBlockClicked(worldIn, pos, playerIn);
+        //Ensure the code runs Server side.
         if(worldIn.isRemote) return;
-        //This will trigger at client side.
-        if(worldIn.isRemote)
-            Minecraft.getMinecraft().player.sendChatMessage(this.getUnlocalizedName());
 
+        System.out.println("worldIn.isRemote   =  "+worldIn.isRemote);
         TileEntityCombustionEngine tileEntityCombustionEngine =
                 (worldIn.getTileEntity(pos) instanceof  TileEntityCombustionEngine ? (TileEntityCombustionEngine)worldIn.getTileEntity(pos) : null);
-        Minecraft.getMinecraft().player.sendChatMessage("Is Engine Running?  and worldIn.isRemote" + tileEntityCombustionEngine.isEngineRunning()+worldIn.isRemote) ;
+        //If the tileEntity is null if continue we will null exception error.
+        if(tileEntityCombustionEngine == null) return;
+
+        String itemInHand = playerIn.getHeldItemMainhand().getItem().getUnlocalizedName();
+        Minecraft.getMinecraft().player.sendChatMessage(itemInHand);
+
+        switch (itemInHand){
+            case "tile.air":
+                Minecraft.getMinecraft().player.sendChatMessage("Trying to toggle engine.");
+                Logger.spawnParticleDefault(worldIn, EnumParticleTypes.WATER_BUBBLE ,pos );
+                tileEntityCombustionEngine.toggleEngine();
+                return;
+            case "item.coal":
+                Minecraft.getMinecraft().player.sendChatMessage("Putting Fuel into Engine.");
+                Logger.spawnParticleDefault(worldIn, EnumParticleTypes.SMOKE_LARGE , pos);
+                return;
+            default:
+                Minecraft.getMinecraft().player.sendChatMessage("IGNORED");
+                return;
+        }
 
     }
 
@@ -55,36 +75,33 @@ public class BlockCombustionEngine extends Block implements ITileEntityProvider 
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        //Ensure the code runs Server side.
         if(worldIn.isRemote) return false;
+        //This will trigger at client side.
+        if(worldIn.isRemote)
+            Minecraft.getMinecraft().player.sendChatMessage(this.getUnlocalizedName());
 
-        System.out.println("worldIn.isRemote   =  "+worldIn.isRemote);
         TileEntityCombustionEngine tileEntityCombustionEngine =
                 (worldIn.getTileEntity(pos) instanceof  TileEntityCombustionEngine ? (TileEntityCombustionEngine)worldIn.getTileEntity(pos) : null);
-        //If the tileEntity is null if continue we will null exception error.
-        if(tileEntityCombustionEngine == null) return false;
+        Minecraft.getMinecraft().player.sendChatMessage("Is Engine Running? " + tileEntityCombustionEngine.isEngineRunning()) ;
+        return true;
+    }
 
-        String itemInHand = playerIn.getHeldItemMainhand().getItem().getUnlocalizedName();
-        Minecraft.getMinecraft().player.sendChatMessage(itemInHand);
-
-        switch (itemInHand){
-            case "tile.air":
-                Minecraft.getMinecraft().player.sendChatMessage("Trying to toggle engine.");
-                Logger.spawnParticleDefault(worldIn, EnumParticleTypes.WATER_BUBBLE ,pos );
-                tileEntityCombustionEngine.toggleEngine();
-                return true;
-            case "item.coal":
-                Minecraft.getMinecraft().player.sendChatMessage("Putting Fuel into Engine.");
-                Logger.spawnParticleDefault(worldIn, EnumParticleTypes.SMOKE_LARGE , pos);
-                return true;
-            default:
-                Minecraft.getMinecraft().player.sendChatMessage("IGNORED");
-                return false;
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState blockstate) {
+        TileEntityCombustionEngine te = (TileEntityCombustionEngine) world.getTileEntity(pos);
+        for(int i=0; i<te.getSizeInventory(); i++)
+        {
+            if(te.getStackInSlot(i) != null)
+                dropBlockAsItem(world, pos, blockstate ,1);
         }
-        
+        super.breakBlock(world, pos, blockstate);
 
     }
 
 
-
+    @Override
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+        if(stack.hasDisplayName())
+            ((TileEntityCombustionEngine) worldIn.getTileEntity(pos)).setCustomName(stack.getDisplayName());
+    }
 }
