@@ -89,12 +89,15 @@ public class BlockCombustionEngine extends Block implements ITileEntityProvider 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState blockstate) {
         TileEntityCombustionEngine te = (TileEntityCombustionEngine) world.getTileEntity(pos);
-        for(int i=0; i<te.getSizeInventory(); i++)
-        {
-            if(te.getStackInSlot(i) != null)
-                dropBlockAsItem(world, pos, blockstate ,1);
-        }
+        InventoryHelper.dropInventoryItems(world, pos, te);
         super.breakBlock(world, pos, blockstate);
+       // TileEntityCombustionEngine te = (TileEntityCombustionEngine) world.getTileEntity(pos);
+        //for(int i=0; i<te.getSizeInventory(); i++)
+        //{
+        //    if(te.getStackInSlot(i) != null)
+        //        dropBlockAsItem(world, pos, blockstate ,1);
+       // }
+       // super.breakBlock(world, pos, blockstate);
 
     }
 
