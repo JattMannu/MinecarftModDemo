@@ -1,6 +1,7 @@
 package com.minecraftmod.tutorial.blocks;
 
 import com.minecraftmod.tutorial.Reference;
+import com.minecraftmod.tutorial.Tutorial;
 import com.minecraftmod.tutorial.init.ModItems;
 import com.minecraftmod.tutorial.tileentity.TileEntityCombustionEngine;
 import com.minecraftmod.tutorial.tileentity.TileEntityEngine;
@@ -83,6 +84,7 @@ public class BlockCombustionEngine extends Block implements ITileEntityProvider 
         TileEntityCombustionEngine tileEntityCombustionEngine =
                 (worldIn.getTileEntity(pos) instanceof  TileEntityCombustionEngine ? (TileEntityCombustionEngine)worldIn.getTileEntity(pos) : null);
         Minecraft.getMinecraft().player.sendChatMessage("Is Engine Running? " + tileEntityCombustionEngine.isEngineRunning()) ;
+        playerIn.openGui(Tutorial.instance, 0, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

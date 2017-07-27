@@ -24,6 +24,8 @@ public class GuiCombustionEngine extends GuiContainer{
 
         this.te =te;
         this.playerInv = playerInv;
+
+        System.out.println("Trying to open GUI");
     }
 
     @Override
@@ -31,5 +33,11 @@ public class GuiCombustionEngine extends GuiContainer{
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F); //Grey background
         this.mc.getTextureManager().bindTexture(TEXTURE); //Binds the texture for rendering
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize); //Draws our texture
+    }
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        String s = this.te.getDisplayName().getUnformattedText();
+        this.fontRenderer.drawString(s, 88 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);            //#404040
+        this.fontRenderer.drawString(this.playerInv.getDisplayName().getUnformattedText(), 8, 72, 4210752);      //#404040
     }
 }

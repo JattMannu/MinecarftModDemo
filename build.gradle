@@ -34,6 +34,9 @@ minecraft {
 }
 
 dependencies {
+    //compile files("thirdparPneumaticCraft-1.7.10-1.12.7-150-universal.jar")
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
