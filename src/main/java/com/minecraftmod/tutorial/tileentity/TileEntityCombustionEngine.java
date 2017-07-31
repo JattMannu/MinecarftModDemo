@@ -180,7 +180,7 @@ public class TileEntityCombustionEngine extends TileEntity  implements IInventor
             stack.setCount(this.getInventoryStackLimit());
 
         if (stack != null && stack.getCount() == 0)
-            stack = null;
+            stack = ItemStack.EMPTY;
 
         this.inventory[index] = stack;
         this.markDirty();
