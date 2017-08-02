@@ -132,7 +132,7 @@ public class TileEntityCombustionEngine extends TileEntity  implements IInventor
     @Override
     public ItemStack getStackInSlot(int index) {
         if (index < 0 || index >= this.getSizeInventory())
-            return null;
+            return ItemStack.EMPTY;
         return this.inventory[index];
     }
 
@@ -143,14 +143,14 @@ public class TileEntityCombustionEngine extends TileEntity  implements IInventor
 
             if (this.getStackInSlot(index).getCount() <= count) {
                 itemstack = this.getStackInSlot(index);
-                this.setInventorySlotContents(index, null);
+                this.setInventorySlotContents(index, ItemStack.EMPTY);
                 this.markDirty();
                 return itemstack;
             } else {
                 itemstack = this.getStackInSlot(index).splitStack(count);
 
                 if (this.getStackInSlot(index).getCount() <= 0) {
-                    this.setInventorySlotContents(index, null);
+                    this.setInventorySlotContents(index, ItemStack.EMPTY);
                 } else {
                     //Just to show that changes happened
                     this.setInventorySlotContents(index, this.getStackInSlot(index));
@@ -160,14 +160,14 @@ public class TileEntityCombustionEngine extends TileEntity  implements IInventor
                 return itemstack;
             }
         } else {
-            return null;
+            return ItemStack.EMPTY;
         }
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
         ItemStack stack = this.getStackInSlot(index);
-        this.setInventorySlotContents(index, null);
+        this.setInventorySlotContents(index, ItemStack.EMPTY);
         return stack;
     }
 
@@ -228,6 +228,6 @@ public class TileEntityCombustionEngine extends TileEntity  implements IInventor
     @Override
     public void clear() {
         for (int i = 0; i < this.getSizeInventory(); i++)
-            this.setInventorySlotContents(i, null);
+            this.setInventorySlotContents(i, ItemStack.EMPTY);
     }
 }
