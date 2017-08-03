@@ -13,7 +13,8 @@ public class Reference {
     public static enum MechItems{
         RADIATOR("radiator","ItemRadiator"),
         NUT("nut","ItemNut"),
-        BOLT("bolt","ItemBolt");
+        BOLT("bolt","ItemBolt"),
+        POTION_JUMP_BOOST("potionjumpboost","PotionJumpBoost");
 
         private String unlocalizedName;
         private String registryName;

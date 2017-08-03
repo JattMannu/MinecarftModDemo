@@ -2,6 +2,7 @@ package com.minecraftmod.tutorial.init;
 
 import com.minecraftmod.tutorial.Reference;
 import com.minecraftmod.tutorial.items.ItemBolt;
+import com.minecraftmod.tutorial.items.ItemMyPotion;
 import com.minecraftmod.tutorial.items.ItemNut;
 import com.minecraftmod.tutorial.items.ItemRadiator;
 import net.minecraft.client.Minecraft;
@@ -17,22 +18,24 @@ public class ModItems implements iMod{
     private static Item radiator;
     private static Item nut;
     private static Item bolt;
+    private static Item potionJumpBoost;
 
     public static void init(){
         radiator = new ItemRadiator();
         nut = new ItemNut();
         bolt = new ItemBolt();
+        potionJumpBoost = new ItemMyPotion();
     }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event){
         System.out.println("registerItems");
-        event.getRegistry().registerAll(radiator , nut ,bolt);
+        event.getRegistry().registerAll(radiator , nut ,bolt, potionJumpBoost);
     }
 
     public static void registerRenders(){
         System.out.println("registerRenders");
-        registerRender(radiator, nut ,bolt );
+        registerRender(radiator, nut ,bolt,potionJumpBoost );
     }
 
     public static void registerRender(Item... items){

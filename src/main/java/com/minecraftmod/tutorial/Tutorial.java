@@ -1,6 +1,7 @@
 package com.minecraftmod.tutorial;
 
 import com.minecraftmod.tutorial.init.*;
+import com.minecraftmod.tutorial.potions.PotionJumpBoost;
 import com.minecraftmod.tutorial.proxy.CommonProxy;
 import com.minecraftmod.tutorial.tileentity.TileEntityCombustionEngine;
 import net.minecraft.item.Item;
@@ -41,9 +42,11 @@ public class Tutorial {
         // The function must be static.....
         MinecraftForge.EVENT_BUS.register(ModItems.class);
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
+        MinecraftForge.EVENT_BUS.register(PotionJumpBoost.class);
         // The function is not STATIC
         //MinecraftForge.EVENT_BUS.register(new ModItems());
         System.out.println("preInit");
+
     }
 
     @Mod.EventHandler
