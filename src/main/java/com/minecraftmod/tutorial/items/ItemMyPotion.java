@@ -1,6 +1,7 @@
 package com.minecraftmod.tutorial.items;
 
 import com.minecraftmod.tutorial.Reference;
+import com.minecraftmod.tutorial.potions.PotionJumpBoost;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -46,7 +48,11 @@ public class ItemMyPotion extends ItemPotion{
 
         if (!worldIn.isRemote)
         {
-            for (PotionEffect potioneffect : PotionUtils.getEffectsFromStack(stack))
+            PotionEffect pe = new PotionEffect(new PotionJumpBoost(false, 2), 30 , 1);
+            pe.getPotion().affectEntity(entityplayer, entityplayer, entityLiving, pe.getAmplifier(), 1.0D);
+            entityplayer.attackEntityFrom(DamageSource.MAGIC, (float)1);
+            System.out.println("");
+           /* for (PotionEffect potioneffect : PotionUtils.getEffectsFromStack(stack))
             {
                 if (potioneffect.getPotion().isInstant())
                 {
@@ -56,7 +62,9 @@ public class ItemMyPotion extends ItemPotion{
                 {
                     entityLiving.addPotionEffect(new PotionEffect(potioneffect));
                 }
-            }
+            }*/
+
+
         }
 
         if (entityplayer != null)
